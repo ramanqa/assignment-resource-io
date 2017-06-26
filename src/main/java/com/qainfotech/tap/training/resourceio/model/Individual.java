@@ -2,6 +2,7 @@ package com.qainfotech.tap.training.resourceio.model;
 
 import java.util.Map;
 
+
 /**
  *
  * @author Ramandeep RamandeepSingh AT QAInfoTech.com
@@ -14,6 +15,18 @@ public class Individual {
     
     public Individual(Map<String, Object> individualMap){
         throw new UnsupportedOperationException("Not implemented.");
+    }
+    
+    
+    
+    public Individual(String a, Integer b, Boolean c)
+    {
+    	
+    	name=a;
+    	id=b;
+    	active=c;
+    	
+    	
     }
     
     /**
