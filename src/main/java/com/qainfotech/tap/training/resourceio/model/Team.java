@@ -34,13 +34,6 @@ public class Team {
 		//throw new UnsupportedOperationException("Not implemented.");
 	}
 
-	public Team(String aa, Integer bb, List<Individual> x) {
-		name = aa;
-		id = bb;
-		members = x;
-
-	}
-
 	/**
 	 * get team name
 	 * 
@@ -61,6 +54,7 @@ public class Team {
 
 	
 	List<Individual> membersInTeam = new ArrayList<Individual>();
+	JSONParser parser = new JSONParser();
 	/**
 	 * get list of individuals that are members of this team
 	 * 
@@ -71,35 +65,33 @@ public class Team {
 	public List<Individual> getMembers() throws FileNotFoundException, IOException 
 	{
 	
-		JSONParser parser = new JSONParser();
-		JSONObject obj = null;
+		
+		JSONObject jsonObject = null;
 		try {
-			obj = (JSONObject) parser.parse(new FileReader("src/main/resources/db.json"));
+			jsonObject = (JSONObject) parser.parse(new FileReader("src/main/resources/db.json"));
 		} catch (org.json.simple.parser.ParseException e) {
 			 e.printStackTrace();
 		}
 
-		JSONObject jsonObject = (JSONObject) obj;
-
-		JSONArray second = (JSONArray) jsonObject.get("teams");
+		JSONArray jsonTeamarray = (JSONArray) jsonObject.get("teams");
 
 
-		JSONObject myobj;
-		JSONArray temp;
+		JSONObject jsonInnerObject;
+		JSONArray jsonMemberArray;
 
-		for (int i = 0; i < second.size(); i++) {
+		for (int index = 0; index < jsonTeamarray.size(); index++) {
 
-			myobj = (JSONObject) second.get(i);
+			jsonInnerObject = (JSONObject) jsonTeamarray.get(index);
 
-			if ((int) Integer.parseInt(myobj.get("id").toString()) == (int) this.id) {
-				temp = (JSONArray) myobj.get("members");
-				for (int y = 0; y < temp.size(); y++) {
-					for (int q = 0; q < members.size(); q++) {
+			if ((int) Integer.parseInt(jsonInnerObject.get("id").toString()) == (int) this.id) {
+				jsonMemberArray = (JSONArray) jsonInnerObject.get("members");
+				for (int index2 = 0; index2 < jsonMemberArray.size(); index2++) {
+					for (int index3 = 0; index3 < members.size(); index3++) {
 
 	
-						if ((int)( Integer.parseInt(temp.get(y)+"")) == (int) (members.get(q).getId())) {
+						if ((int)( Integer.parseInt(jsonMemberArray.get(index2)+"")) == (int) (members.get(index3).getId())) {
 
-						membersInTeam.add(members.get(q));
+						membersInTeam.add(members.get(index3));
 						
 						}
 
@@ -130,33 +122,33 @@ public class Team {
 	 */
 	public List<Individual> getActiveMembers() throws FileNotFoundException, IOException {
 
-		JSONParser parser = new JSONParser();
-		JSONObject obj = null;
+		
+		JSONObject mainJsonobj = null;
 		try {
-			obj = (JSONObject) parser.parse(new FileReader("src/main/resources/db.json"));
+			mainJsonobj = (JSONObject) parser.parse(new FileReader("src/main/resources/db.json"));
 		} catch (org.json.simple.parser.ParseException e) {
 			 e.printStackTrace();
 		}
 
-		JSONObject jsonObject = (JSONObject) obj;
-
-		JSONArray second = (JSONArray) jsonObject.get("teams");
 
 
-		JSONObject myobj;
-		JSONArray temp;
+		JSONArray teamJsonarray = (JSONArray) mainJsonobj.get("teams");
 
-		for (int i = 0; i < second.size(); i++) {
 
-			myobj = (JSONObject) second.get(i);
+		JSONObject innerJsonobj;
+		JSONArray innerJsonArray;
 
-			if ((int) Integer.parseInt(myobj.get("id").toString()) == (int) this.id) {
-				temp = (JSONArray) myobj.get("members");
-				for (int y = 0; y < temp.size(); y++) {
+		for (int i = 0; i < teamJsonarray.size(); i++) {
+
+			innerJsonobj = (JSONObject) teamJsonarray.get(i);
+
+			if ((int) Integer.parseInt(innerJsonobj.get("id").toString()) == (int) this.id) {
+				innerJsonArray = (JSONArray) innerJsonobj.get("members");
+				for (int y = 0; y < innerJsonArray.size(); y++) {
 					for (int q = 0; q < members.size(); q++) {
 
 	
-						if (members.get(q).isActive() && (int)( Integer.parseInt(temp.get(y)+"")) == (int) (members.get(q).getId())) {
+						if (members.get(q).isActive() && (int)( Integer.parseInt(innerJsonArray.get(y)+"")) == (int) (members.get(q).getId())) {
 
 							myActiveTeam.add(members.get(q));
 						
@@ -184,38 +176,36 @@ public class Team {
 	 */
 	public List<Individual> getInactiveMembers() throws FileNotFoundException, IOException {
 
-		JSONParser parser = new JSONParser();
-		JSONObject obj = null;
+				JSONObject jsonObject = null;
 		try {
-			obj = (JSONObject) parser.parse(new FileReader("src/main/resources/db.json"));
+			jsonObject = (JSONObject) parser.parse(new FileReader("src/main/resources/db.json"));
 		} catch (org.json.simple.parser.ParseException e) {
 		}
 
-		JSONObject jsonObject = (JSONObject) obj;
-
-		JSONArray second = (JSONArray) jsonObject.get("teams");
-
-
-		JSONObject myobj;
-		JSONArray temp;
+	
+		JSONArray innerJsonArray = (JSONArray) jsonObject.get("teams");
 
 
-		for (int i = 0; i < second.size(); i++) {
+		JSONObject innerObj;
+		JSONArray tempJsonArray;
 
-			myobj = (JSONObject) second.get(i);
+
+		for (int index = 0; index < innerJsonArray.size(); index++) {
+
+			innerObj = (JSONObject) innerJsonArray.get(index);
 
 
-			if ((int) Integer.parseInt(myobj.get("id").toString()) == (int) this.id) {
-				temp = (JSONArray) myobj.get("members");
+			if ((int) Integer.parseInt(innerObj.get("id").toString()) == (int) this.id) {
+				tempJsonArray = (JSONArray) innerObj.get("members");
 
-				for (int y = 0; y < temp.size(); y++) {
+				for (int arrayindex = 0; arrayindex < tempJsonArray.size(); arrayindex++) {
 
-					for (int q = 0; q < members.size(); q++) {
+					for (int innerarray = 0; innerarray < members.size(); innerarray++) {
 
 	
-						if (!members.get(q).isActive() && (int)( Integer.parseInt(temp.get(y)+"")) == (int) (members.get(q).getId())) {
+						if (!members.get(innerarray).isActive() && (int)( Integer.parseInt(tempJsonArray.get(arrayindex)+"")) == (int) (members.get(innerarray).getId())) {
 
-						mynotActiveTeam.add(members.get(q));
+						mynotActiveTeam.add(members.get(innerarray));
 						
 						}
 
