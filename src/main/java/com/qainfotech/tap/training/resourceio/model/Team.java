@@ -25,24 +25,21 @@ public class Team {
 		
 	  	
 	    Map<String, Object> myMap = teamMap;
-	    String variables = myMap.get("key").toString();
-	    
-	    String divide[]=variables.split("="); 
 	    	
-	    name=divide[0];
-	    id=Integer.parseInt(divide[1]);
+	    name = myMap.get("name").toString();
+	    id =Integer.parseInt(myMap.get("id").toString());
 	    members = (List<Individual>) teamMap.get("memberobject");
 	    
 		
 		//throw new UnsupportedOperationException("Not implemented.");
 	}
 
-//	public Team(String aa, Integer bb, List<Individual> x) {
-//		name = aa;
-//		id = bb;
-//		members = x;
-//
-//	}
+	public Team(String aa, Integer bb, List<Individual> x) {
+		name = aa;
+		id = bb;
+		members = x;
+
+	}
 
 	/**
 	 * get team name
