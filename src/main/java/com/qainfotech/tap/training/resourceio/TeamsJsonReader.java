@@ -55,17 +55,8 @@ public class TeamsJsonReader {
 			individualMap.put("id", myobj.get("id").toString().trim());
 			individualMap.put("active", myobj.get("active").toString().trim());
 			
-//			
-//	    	individualMap.put("key", myobj.get("name").toString().trim()+"="+
-//					Integer.parseInt(myobj.get("id").toString().trim())+"="+
-//					Boolean.parseBoolean(myobj.get("active").toString().trim()));
-//	    	
-//	    	System.out.println(myobj.get("name").toString().trim()+"="+
-//					Integer.parseInt(myobj.get("id").toString().trim())+"="+
-//					Boolean.parseBoolean(myobj.get("active").toString().trim()));
-//	    	
-			Individual temp = new Individual(individualMap);
-			
+	    	
+	
 			obj1 = new Individual(individualMap);
 
 			try {
