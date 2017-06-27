@@ -3,7 +3,17 @@ package com.qainfotech.tap.training.resourceio;
 import com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException;
 import com.qainfotech.tap.training.resourceio.model.Individual;
 import com.qainfotech.tap.training.resourceio.model.Team;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import org.json.simple.JSONArray;
+import java.util.*;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -16,10 +26,53 @@ public class TeamsJsonReader{
      * 
      * @return 
      */
-    public List<Individual> getListOfIndividuals(){
-        throw new UnsupportedOperationException("Not implemented.");
-    }
+	
+	JSONParser parser =new JSONParser();
+	 Object obj;
+	 private List<Team> teamList;
+	 private List<Individual> individualList;
+	
+	 List<Individual> activeList=new ArrayList<Individual>();
+	 List<Individual> notActiveList=new ArrayList<Individual>();
+
     
+   public List<Individual> getListOfIndividuals(){
+	   try {
+		obj = parser.parse(new FileReader("src/main/resources/db.json"));
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+   	
+
+	    JSONObject jsonObject = (JSONObject) obj;
+	    
+	   
+   	 individualList=new ArrayList<Individual>();
+     
+        JSONArray arr=(JSONArray)jsonObject.get("individuals");
+        JSONObject myobj;
+        
+        Map<String, Object> map;
+        for(int index=0;index<arr.size();index++)
+        {
+        	
+        	 myobj = (JSONObject) arr.get(index);
+        	 map=(Map<String,Object>)myobj.clone();
+        	 
+        	 
+        	 Individual individual=new Individual(map);
+          individualList.add(individual);
+          
+        	 
+            		
+        }
+
+
+        return individualList;
+   }
+   
+     // throw new UnsupportedOperationException("Not implemented.");
     /**
      * get individual object by id
      * 
@@ -27,8 +80,20 @@ public class TeamsJsonReader{
      * @return 
      * @throws com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException 
      */
-    public Individual getIndividualById(Integer id) throws ObjectNotFoundException{
-        throw new UnsupportedOperationException("Not implemented.");
+        public Individual getIndividualById(Integer id) throws ObjectNotFoundException{
+    	
+        	if(this.getListOfIndividuals()==null)
+            	this.getListOfIndividuals();
+    	
+     	for(int index=0;index<individualList.size();index++)
+    	{
+    		if(individualList.get(index).getId()==(int)id)
+    		{
+    			return individualList.get(index);
+    		}
+    			
+    	}
+        throw new ObjectNotFoundException(null,null,null);
     }
     
     /**
@@ -39,7 +104,22 @@ public class TeamsJsonReader{
      * @throws com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException 
      */
     public Individual getIndividualByName(String name) throws ObjectNotFoundException{
-        throw new UnsupportedOperationException("Not implemented.");
+    	
+    	if(this.getListOfIndividuals()==null)
+        	this.getListOfIndividuals();
+    	for(int index=0;index<individualList.size();index++)
+    	{
+    		if(individualList.get(index).getName().equals(name))
+    		{
+    			return individualList.get(index);
+    		}		
+    			
+    	}
+		
+    
+    	//return nameList;
+    
+       throw new ObjectNotFoundException(null,null,null);
     }
     
     
@@ -49,7 +129,18 @@ public class TeamsJsonReader{
      * @return List of inactive individuals object
      */
     public List<Individual> getListOfInactiveIndividuals(){
-        throw new UnsupportedOperationException("Not implemented.");
+    	
+    	if(this.getListOfIndividuals()==null)
+    	this.getListOfIndividuals();
+    	
+       	for(int index=0;index<individualList.size();index++)
+    	{
+    		if(individualList.get(index).isActive()==false)
+notActiveList.add(individualList.get(index));
+    				
+    	}
+    	return (List<Individual>)notActiveList;
+        //throw new UnsupportedOperationException("Not implemented.");
     }
     
     /**
@@ -58,7 +149,18 @@ public class TeamsJsonReader{
      * @return List of active individuals object
      */
     public List<Individual> getListOfActiveIndividuals(){
-        throw new UnsupportedOperationException("Not implemented.");
+    	if(this.getListOfIndividuals()==null)
+        	this.getListOfIndividuals();
+    	
+      	for(int index=0;index<individualList.size();index++)
+    	{
+    		if(individualList.get(index).isActive()==true)
+activeList.add(individualList.get(index));
+    				
+    	}
+      	return (List<Individual>)activeList;
+    
+       // throw new UnsupportedOperationException("Not implemented.");
     }
     
     /**
@@ -67,6 +169,41 @@ public class TeamsJsonReader{
      * @return 
      */
     public List<Team> getListOfTeams(){
-        throw new UnsupportedOperationException("Not implemented.");
+    	
+ 	   try {
+ 			obj = parser.parse(new FileReader("src/main/resources/db.json"));
+ 		} catch (Exception e) {
+ 			// TODO Auto-generated catch block
+ 			e.printStackTrace();
+ 		} 
+ 	   
+ 	    JSONObject jsonObject = (JSONObject) obj;
+ 	   teamList=new ArrayList<Team>();
+ 
+ 	    
+         JSONArray arr=(JSONArray)jsonObject.get("teams");
+         JSONObject myobj;
+        
+         Map<String, Object> map;
+         Team team;
+         for(int index=0;index<arr.size();index++)
+         {
+         	
+         	 myobj = (JSONObject) arr.get(index);
+         
+        
+         	 map=(Map<String,Object>)myobj.clone();
+         	 
+         	team=new Team(map);
+           teamList.add(team);
+      
+         		
+         }
+		return teamList;
+ 	   	 
+      //throw new UnsupportedOperationException("Not implemented.");
     }
+    
+    
+    
 }
