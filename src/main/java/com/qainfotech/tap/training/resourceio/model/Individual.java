@@ -18,32 +18,15 @@ public class Individual {
     public Individual(Map<String, Object> individualMap){
     	
     Map<String, Object> myMap = individualMap;
-    String variables = myMap.get("key").toString();
-    
-    String divide[]=variables.split("="); 
     	
-    name=divide[0];
-    id=Integer.parseInt(divide[1]);
-    active = Boolean.parseBoolean(divide[2]);
-    
-    
-    //System.out.println(name+"  "+id+"   "+active);
-    
-    	
-       // throw new UnsupportedOperationException("Not implemented.");
+    name = myMap.get("name").toString();
+    id = Integer.parseInt(myMap.get("id").toString());
+    active = Boolean.parseBoolean(myMap.get("active").toString());
+       
+    // throw new UnsupportedOperationException("Not implemented.");
     }
   
     
-//    
-//   public Individual(String a, Integer b, Boolean c)
-//   {
-//    	
-//   	name=a;
-//    	id=b;
-//    	active=c;
-//  	
-//   }
-//  
     /**
      * get the name of individual
      * 
@@ -70,13 +53,6 @@ public class Individual {
         return active;
     }
     
-    public static void main(String... S)
-    {
-    	
-    	
-    	Map<String, Object> individualMap = new HashMap() ;
-    	individualMap.put("key", "hey=525=false");
-		Individual myobj = new Individual(individualMap);
-    }
+   
     
 }
