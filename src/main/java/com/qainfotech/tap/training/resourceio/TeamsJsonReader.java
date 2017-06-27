@@ -51,14 +51,19 @@ public class TeamsJsonReader {
 		
 			
 			Map<String, Object> individualMap = new HashMap() ;
-	    	individualMap.put("key", myobj.get("name").toString().trim()+"="+
-					Integer.parseInt(myobj.get("id").toString().trim())+"="+
-					Boolean.parseBoolean(myobj.get("active").toString().trim()));
-	    	
-	    	System.out.println(myobj.get("name").toString().trim()+"="+
-					Integer.parseInt(myobj.get("id").toString().trim())+"="+
-					Boolean.parseBoolean(myobj.get("active").toString().trim()));
-	    	
+			individualMap.put("name", myobj.get("name").toString().trim());
+			individualMap.put("id", myobj.get("id").toString().trim());
+			individualMap.put("active", myobj.get("active").toString().trim());
+			
+//			
+//	    	individualMap.put("key", myobj.get("name").toString().trim()+"="+
+//					Integer.parseInt(myobj.get("id").toString().trim())+"="+
+//					Boolean.parseBoolean(myobj.get("active").toString().trim()));
+//	    	
+//	    	System.out.println(myobj.get("name").toString().trim()+"="+
+//					Integer.parseInt(myobj.get("id").toString().trim())+"="+
+//					Boolean.parseBoolean(myobj.get("active").toString().trim()));
+//	    	
 			Individual temp = new Individual(individualMap);
 			
 			obj1 = new Individual(individualMap);
@@ -155,15 +160,11 @@ public class TeamsJsonReader {
 			
 				
 				Map<String, Object> individualMap = new HashMap() ;
-		    	individualMap.put("key", myobj.get("name").toString().trim()+"="+
-						Integer.parseInt(myobj.get("id").toString().trim())+"="+
-						Boolean.parseBoolean(myobj.get("active").toString().trim()));
-		    	
-		    	System.out.println(myobj.get("name").toString().trim()+"="+
-						Integer.parseInt(myobj.get("id").toString().trim())+"="+
-						Boolean.parseBoolean(myobj.get("active").toString().trim()));
-		    	
-				Individual temp = new Individual(individualMap);
+		
+				individualMap.put("name", myobj.get("name").toString().trim());
+				individualMap.put("id", myobj.get("id").toString().trim());
+				individualMap.put("active", myobj.get("active").toString().trim());
+			
 				
 				obj1 = new Individual(individualMap);
 
@@ -208,10 +209,10 @@ public class TeamsJsonReader {
 			if (Boolean.parseBoolean(myobj.get("active").toString()) == true) {
 			
 				Map<String, Object> individualMap = new HashMap() ;
-		    	individualMap.put("key", myobj.get("name").toString().trim()+"="+
-						Integer.parseInt(myobj.get("id").toString().trim())+"="+
-						Boolean.parseBoolean(myobj.get("active").toString().trim()));
-				
+				individualMap.put("name", myobj.get("name").toString().trim());
+				individualMap.put("id", myobj.get("id").toString().trim());
+				individualMap.put("active", myobj.get("active").toString().trim());
+					
 		    	
 		    	
 		    	obj1 = new Individual(individualMap);
@@ -261,19 +262,14 @@ public class TeamsJsonReader {
 			myobj = (JSONObject) second.get(i);
 
 			
-			Map<String, Object> individualMap = new HashMap() ;
-	    	individualMap.put("key", myobj.get("name").toString().trim()+"="+
-					Integer.parseInt(myobj.get("id").toString().trim()));
-	    	
-	    	individualMap.put("memberobject", myObjList);
-	    	
-//	    	System.out.println(myobj.get("name").toString().trim()+"="+
-	//				Integer.parseInt(myobj.get("id").toString().trim()));
+			Map<String, Object> TeamMap = new HashMap() ;
+			TeamMap.put("name", myobj.get("name").toString().trim());
+			TeamMap.put("id", myobj.get("id").toString().trim());
+			TeamMap.put("memberobject", myObjList);
 	    	
 	    	
-	    	
-	    	System.out.println(individualMap.get("memberobject"));
-			Team temp = new Team(individualMap);
+	    	System.out.println(TeamMap.get("memberobject"));
+			Team temp = new Team(TeamMap);
 			myObjList5.add(temp);
 
 		}
@@ -282,11 +278,5 @@ public class TeamsJsonReader {
 
 	}
 
-	public static void main(String... S) throws IOException, ObjectNotFoundException {
-
-		TeamsJsonReader obj = new TeamsJsonReader();
-		System.out.println("here"+obj.getListOfTeams());		
-
-	}
 
 }
