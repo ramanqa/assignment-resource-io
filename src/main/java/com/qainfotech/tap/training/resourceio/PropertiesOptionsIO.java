@@ -1,6 +1,5 @@
 package com.qainfotech.tap.training.resourceio;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -96,12 +95,5 @@ public class PropertiesOptionsIO {
 		// throw new UnsupportedOperationException("Not implemented.");
 	}
 	
-public static void main(String... S) throws IOException, ObjectNotFoundException {
 
-		//PropertiesOptionsIO obj = new PropertiesOptionsIO();
-		//obj.getOptionValue("ResourceIOTest");
-		//obj.addOption("akshay","good boy");
-		
-		
-	}
 }
