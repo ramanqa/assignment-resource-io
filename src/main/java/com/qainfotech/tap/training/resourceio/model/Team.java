@@ -15,7 +15,10 @@ public class Team {
     private final List<Individual> members;
     
     public Team(Map<String, Object> teamMap){
-        throw new UnsupportedOperationException("Not implemented.");
+       this.name  =  (String)teamMap.get("name");
+       	this.id    =  (Integer)teamMap.get("id");
+   
+       	this.members=(List<Individual>) teamMap.get("members");
     }
     
     /**
@@ -51,7 +54,17 @@ public class Team {
      * @return 
      */
     public List<Individual> getActiveMembers(){
-        throw new UnsupportedOperationException("Not implemented.");
+      List<Individual> individual;
+    	List<Individual> ActiveMembers = new ArrayList<>();
+    	individual=this.getMembers();
+    	for(Individual member:individual)
+    	{
+    		if(member.isActive())
+    		{
+    			ActiveMembers.add(member);
+    		}
+    	}
+    	return ActiveMembers;
     }
         
     /**
@@ -60,6 +73,17 @@ public class Team {
      * @return 
      */
     public List<Individual> getInactiveMembers(){
-        throw new UnsupportedOperationException("Not implemented.");
+         List<Individual> individual;
+    	List<Individual> InActiveMembers = new ArrayList<>();
+    	individual=this.getMembers();
+    	for(Individual member:individual)
+    	{
+    		if(!member.isActive())
+    		{
+    			InActiveMembers.add(member);
+    		}
+    	}
+    	return InActiveMembers;
+       
     }
 }
