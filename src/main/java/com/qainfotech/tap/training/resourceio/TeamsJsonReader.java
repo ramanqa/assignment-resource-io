@@ -1,7 +1,6 @@
 package com.qainfotech.tap.training.resourceio;
 
 import com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException;
-import com.qainfotech.tap.training.resourceio.model.Check_individual;
 import com.qainfotech.tap.training.resourceio.model.Individual;
 import com.qainfotech.tap.training.resourceio.model.Team;
 
@@ -15,8 +14,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.qainfotech.tap.training.resourceio.model.Individual;;
-
 /**
  *
  * @author Ramandeep RamandeepSingh AT QAInfoTech.com
@@ -28,65 +25,31 @@ public class TeamsJsonReader {
 	 * 
 	 * @return
 	 */
-
-	List<Individual> individualList;
-
 	public List<Individual> getListOfIndividuals() {
-		// throw new UnsupportedOperationException("Not implemented.");
-
-		List<Individual> myList = null;
-
-		Individual individualObject = null;
-
-		Map<String, Object> myMap = null;
-
-		Object obj = null;
-		JSONObject jsonObject = null;
-		JSONArray jsonArray = null;
-		List<String> list = null;
-		JSONObject jsonObject2 = null;
-
-		individualList = new ArrayList<>();
-
-		String name;
-		int id;
-		boolean active;
-
-		// System.out.println("here also 1");
 
 		try {
+			List<Individual> individualList = new ArrayList<>();
+			JSONObject jsonFile = (JSONObject) (new JSONParser()).parse(new FileReader("src/main/resources/db.json"));
+			JSONArray individualArray = new JSONArray();
+			individualArray = (JSONArray) jsonFile.get("individuals");
+			Map<String, Object> individualMap = new HashMap<>();
 
-			obj = (new JSONParser()).parse(new FileReader("src/main/resources/db.json"));
-			jsonObject = (JSONObject) obj;
-			jsonArray = (JSONArray) jsonObject.get("individuals");
+			for (int i = 0; i < individualArray.size(); i++) {
 
-			list = new ArrayList<String>();
+				JSONObject singleObject = (JSONObject) individualArray.get(i);
+				individualMap.put("name", (Object) singleObject.get("name"));
+				individualMap.put("id", (Object) ((Long) singleObject.get("id")).intValue());
+				individualMap.put("active", (Object) singleObject.get("active"));
 
-			for (int i = 0; i < jsonArray.size(); i++) {
-				System.out.println("here,,," + jsonArray.get(i));
-				// list.add(jsonArray.getJSONObject(i).getString("name"));
-				jsonObject2 = (JSONObject) jsonArray.get(i);
-
-				System.out.println((String) jsonObject2.get("name"));
-
-				myMap = new HashMap<String, Object>();
-
-				myMap.put("name", jsonObject2.get("name"));
-
-				myMap.put("id", ((Long) jsonObject2.get("id")).intValue());
-				myMap.put("active", jsonObject2.get("active"));
-
-				individualObject = new Individual(myMap);
-
-				individualList.add(individualObject);
+				individualList.add(new Individual(individualMap));
 
 			}
+			return individualList;
 
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		return individualList;
-
+		return null;
 	}
 
 	/**
@@ -98,44 +61,25 @@ public class TeamsJsonReader {
 	 * @throws com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException
 	 */
 	public Individual getIndividualById(Integer id) throws ObjectNotFoundException {
-		// throw new UnsupportedOperationException("Not implemented.");
-
-		List<Individual> individualList = new ArrayList<>();
-
-		List<Individual> ls = new ArrayList<>();
-		TeamsJsonReader my = new TeamsJsonReader();
-
-		individualList = (new TeamsJsonReader()).getListOfIndividuals();
-
-		Map<String, Object> myMap = null;
-
-		Individual individual = null;
-
-		// System.out.println(individualList.size());
 
 		int i, j = 0;
+		TeamsJsonReader reader = new TeamsJsonReader();
+		List<Individual> individualList = new ArrayList<>();
+		individualList = reader.getListOfIndividuals();
+		Individual individual = null;
 		for (i = 0; i < individualList.size(); i++) {
-			j = 0;
-
-			individual = individualList.get(i);
-
-			System.out.println(individual.getId() + " " + id);
-
-			// id=((Long)individual.getId().intValue());
-
-			if (individual.getId().compareTo(id) == 0) {
+		  
+			if (individualList.get(i).getId().equals(id)) {
+				individual = individualList.get(i);
 				j = 1;
-				System.out.println(individual.getId() + "found...");
-
 				break;
 			}
 		}
 
-		if (i == individualList.size() && j == 0)
+		if (j == 0)
 			throw new ObjectNotFoundException("individual", "id", id.toString());
-
-		return individual;
-
+		else
+			return individual;
 	}
 
 	/**
@@ -145,46 +89,25 @@ public class TeamsJsonReader {
 	 * @return
 	 * @throws com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException
 	 */
-
 	public Individual getIndividualByName(String name) throws ObjectNotFoundException {
-		// throw new UnsupportedOperationException("Not implemented.");
-
-		List<Individual> individualList = new ArrayList<>();
-
-		List<Individual> ls = new ArrayList<>();
-		TeamsJsonReader my = new TeamsJsonReader();
-
-		individualList = (new TeamsJsonReader()).getListOfIndividuals();
-
-		Map<String, Object> myMap = null;
-
-		Individual individual = null;
-
-		// System.out.println(individualList.size());
-
+	
 		int i, j = 0;
+		TeamsJsonReader reader = new TeamsJsonReader();
+		List<Individual> individualList = new ArrayList<>();
+		individualList = reader.getListOfIndividuals();
+		Individual individual = null;
 		for (i = 0; i < individualList.size(); i++) {
-			j = 0;
-
-			individual = individualList.get(i);
-
-			// System.out.println(individual.getId()+" "+id);
-
-			// id=((Long)individual.getId().intValue());
-
-			if (individual.getName().equals(name)) {
+			if (individualList.get(i).getName().equals(name)) {
+				individual = individualList.get(i);
 				j = 1;
-				System.out.println(individual.getName() + "found...");
-
 				break;
 			}
 		}
 
-		if (i == individualList.size() && j == 0)
-			throw new ObjectNotFoundException("individual", "name", name);
-
-		return individual;
-
+		if (j == 0)
+			throw new ObjectNotFoundException("individual", "id", name.toString());
+		else
+			return individual;
 	}
 
 	/**
@@ -193,38 +116,23 @@ public class TeamsJsonReader {
 	 * @return List of inactive individuals object
 	 */
 	public List<Individual> getListOfInactiveIndividuals() {
-		// throw new UnsupportedOperationException("Not implemented.");
 
+	    int i;
+		TeamsJsonReader reader = new TeamsJsonReader();
 		List<Individual> individualList = new ArrayList<>();
 
 		List<Individual> inactiveIndividualList = new ArrayList<>();
-
-		List<Individual> ls = new ArrayList<>();
-		TeamsJsonReader my = new TeamsJsonReader();
-
-		individualList = (new TeamsJsonReader()).getListOfIndividuals();
-
-		Map<String, Object> myMap = null;
-
-		Individual individual = null;
-
-	
-		int i, j = 0;
+		individualList = reader.getListOfIndividuals();
 		for (i = 0; i < individualList.size(); i++) {
-			j = 0;
-
-			individual = individualList.get(i);
-
-			if (!individual.isActive()) {
-				j = 1;
-		
-				inactiveIndividualList.add(individual);
-
+		//	System.out.println(individualList.get(i).getId().getClass().getName() + " " + name);
+			if (individualList.get(i).isActive().compareTo(false)==0) {
+				inactiveIndividualList.add(individualList.get(i));
 			}
 		}
 
-		return inactiveIndividualList;
-
+			return inactiveIndividualList;
+	
+	
 	}
 
 	/**
@@ -233,40 +141,22 @@ public class TeamsJsonReader {
 	 * @return List of active individuals object
 	 */
 	public List<Individual> getListOfActiveIndividuals() {
-		// throw new UnsupportedOperationException("Not implemented.");
-
+		
+	    int i;
+		TeamsJsonReader reader = new TeamsJsonReader();
 		List<Individual> individualList = new ArrayList<>();
 
-		List<Individual> inactiveIndividualList = new ArrayList<>();
-
-		List<Individual> ls = new ArrayList<>();
-		TeamsJsonReader my = new TeamsJsonReader();
-
-		individualList = (new TeamsJsonReader()).getListOfIndividuals();
-
-		Map<String, Object> myMap = null;
-
-		Individual individual = null;
-
-		// System.out.println(individualList.size());
-
-		int i, j = 0;
+		List<Individual> activeIndividualList = new ArrayList<>();
+		individualList = reader.getListOfIndividuals();
 		for (i = 0; i < individualList.size(); i++) {
-			j = 0;
-
-			individual = individualList.get(i);
-
-			if (individual.isActive()) {
-				j = 1;
-			//	System.out.println(individual.getName() + "found...");
-
-				inactiveIndividualList.add(individual);
-
+		//	System.out.println(individualList.get(i).getId().getClass().getName() + " " + name);
+			if (individualList.get(i).isActive().compareTo(true)==0) {
+				activeIndividualList.add(individualList.get(i));
 			}
 		}
 
-		return inactiveIndividualList;
-
+			return activeIndividualList;
+	
 	}
 
 	/**
@@ -274,63 +164,53 @@ public class TeamsJsonReader {
 	 * 
 	 * @return
 	 */
-    
-    
-    /**
-     * working on following method 
-     *
-     *    
-     */
 	public List<Team> getListOfTeams() {
-		// throw new UnsupportedOperationException("Not implemented.");
 
-		List<Team> teamList = new ArrayList();
+	Map<String ,Object> teamMap      =new HashMap<>();
+	try
+	{
+	JSONObject jsonFile = (JSONObject) (new JSONParser()).parse(new FileReader("src/main/resources/db.json"));
+	JSONArray teamArray = new JSONArray();
+	teamArray = (JSONArray) jsonFile.get("teams");
+	List<Team>       teamList       = new ArrayList<>();
+	TeamsJsonReader reader = new TeamsJsonReader();
+	
+	for(int i=0;i<teamArray.size();i++)
+	{
 
-		Team team = null;
-
-		Object obj = null;
-		JSONObject jsonObject = null;
-		JSONArray jsonArray = null;
-		List<String> list = null;
-		JSONObject jsonObject2 = null;
-		Map<String, Object> myMap = null;
-
-		try {
-
-			obj = (new JSONParser()).parse(new FileReader("src/main/resources/db.json"));
-			jsonObject = (JSONObject) obj;
-			jsonArray = (JSONArray) jsonObject.get("teams");
-
-			list = new ArrayList<String>();
-
-			for (int i = 0; i < jsonArray.size(); i++) {
-			//	System.out.println("here,,," + jsonArray.get(i));
-				// list.add(jsonArray.getJSONObject(i).getString("name"));
-				jsonObject2 = (JSONObject) jsonArray.get(i);
-
-				System.out.println((String) jsonObject2.get("name"));
-
-				myMap = new HashMap<String, Object>();
-
-				myMap.put("name", jsonObject2.get("name"));
-				myMap.put("id", jsonObject2.get("id"));
-				myMap.put("active", jsonObject2.get("active"));
-
-				// individualObject = new Individual(myMap);
-
-				// individualList.add(individualObject);
-
-			}
-
-			for (String s : list) {
-				System.out.println("here also" + s);
-			}
-
-		} catch (Exception e) {
-			System.out.println(e);
+		List<Individual> individualList = new ArrayList<>();
+		
+		JSONObject singleObject = (JSONObject) teamArray.get(i);
+		teamMap.put("name", (Object) singleObject.get("name"));
+		teamMap.put("id", (Object) ((Long) singleObject.get("id")).intValue());
+		
+		JSONArray memberArray = (JSONArray)singleObject.get("members");
+		
+		for(int j=0;j<memberArray.size();j++)
+		{
+			individualList.add(reader.getIndividualById(((Long)memberArray.get(j)).intValue()));
+	            		
 		}
 
-		return teamList;
-
+		teamMap.put("members", individualList);
+		teamList.add(new Team(teamMap));
+		
+	}
+//	System.out.println(teamList.size());
+	return teamList;
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+		
+	return null;
+	
 	}
 }
+
+
+
+
+
+
