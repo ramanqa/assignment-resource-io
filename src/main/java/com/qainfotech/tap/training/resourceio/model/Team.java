@@ -86,13 +86,14 @@ public class Team {
 			if ((int) Integer.parseInt(jsonInnerObject.get("id").toString()) == (int) this.id) {
 				jsonMemberArray = (JSONArray) jsonInnerObject.get("members");
 				for (int index2 = 0; index2 < jsonMemberArray.size(); index2++) {
-					for (int index3 = 0; index3 < members.size(); index3++) {
+					out:for (int index3 = 0; index3 < members.size(); index3++) {
 
 	
-						if ((int)( Integer.parseInt(jsonMemberArray.get(index2)+"")) == (int) (members.get(index3).getId())) {
-
+						if ((int)( Integer.parseInt(jsonMemberArray.get(index2).toString())) == (int) (members.get(index3).getId())) {
+                                                {
 						membersInTeam.add(members.get(index3));
-						
+						break out;
+						}	
 						}
 
 					}
@@ -145,13 +146,14 @@ public class Team {
 			if ((int) Integer.parseInt(innerJsonobj.get("id").toString()) == (int) this.id) {
 				innerJsonArray = (JSONArray) innerJsonobj.get("members");
 				for (int y = 0; y < innerJsonArray.size(); y++) {
-					for (int q = 0; q < members.size(); q++) {
+					out:for (int q = 0; q < members.size(); q++) {
 
 	
 						if (members.get(q).isActive() && (int)( Integer.parseInt(innerJsonArray.get(y)+"")) == (int) (members.get(q).getId())) {
-
+							{
 							myActiveTeam.add(members.get(q));
-						
+							break out;
+							}
 						}
 
 					}
@@ -200,13 +202,14 @@ public class Team {
 
 				for (int arrayindex = 0; arrayindex < tempJsonArray.size(); arrayindex++) {
 
-					for (int innerarray = 0; innerarray < members.size(); innerarray++) {
+					out:for (int innerarray = 0; innerarray < members.size(); innerarray++) {
 
 	
 						if (!members.get(innerarray).isActive() && (int)( Integer.parseInt(tempJsonArray.get(arrayindex)+"")) == (int) (members.get(innerarray).getId())) {
-
+						{
 						mynotActiveTeam.add(members.get(innerarray));
-						
+						break out;
+						}
 						}
 
 					}
