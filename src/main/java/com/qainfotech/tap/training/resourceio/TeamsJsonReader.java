@@ -80,7 +80,7 @@ public class TeamsJsonReader{
     	{
     		flag=0;
     		ind=list.get(index);
-    		if(ind.getId()==id){
+    		if(ind.getId().compareTo(id)==0){
     			flag=1;
     			break;
     		}
@@ -114,7 +114,7 @@ public class TeamsJsonReader{
     	{
     		flag=0;
     		ind=list.get(index);
-    		if(ind.getName()==name){
+    		if(ind.getName().equals(name)){
     			flag=1;
     			break;
     		}
