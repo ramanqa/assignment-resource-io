@@ -13,7 +13,31 @@ public class Individual {
     private final Boolean active;
     
     public Individual(Map<String, Object> individualMap){
-        throw new UnsupportedOperationException("Not implemented.");
+       
+    	Integer id=null;
+    	String name=null;
+    	Boolean active=null;
+    	
+    	for(Map.Entry<String, Object> entry : individualMap.entrySet()){
+    		
+    		if (entry.getKey() == "id") {
+                id = (Integer) entry.getValue();
+            }
+    		if (entry.getKey() == "name") {
+               name =  entry.getValue().toString();
+            }
+    		if (entry.getKey() == "active") {
+                active = (Boolean) entry.getValue();
+            }
+    	}
+    		
+    		this.id=id;
+    		this.name=name;
+    		this.active=active;
+    
+    	
+    	
+    	
     }
     
     /**
