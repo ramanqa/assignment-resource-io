@@ -198,6 +198,38 @@ public class TeamsJsonReader{
      * @return 
      */
     public List<Team> getListOfTeams(){
-        throw new UnsupportedOperationException("Not implemented.");
+        
+	    JSONObject jo=null;
+    	List<Team> listTeam=new ArrayList<Team>();
+    	Team teamObject = null;
+    	Map<String,Object> map=new HashMap<String, Object>();
+    	JSONParser parser=new JSONParser();
+    	 Object obj = parser.parse(new FileReader("C:/Users/priyanka.sharma/Desktop/assignment-resource-io/src/main/resources/db.json"));
+    	 JSONObject jsonObject = (JSONObject) obj;
+    	 JSONArray jsonarray = (JSONArray) jsonObject.get("teams");
+    	 TeamsJsonReader reader = new TeamsJsonReader();
+    	 
+    	 for (int i=0; i<jsonarray.size(); i++)
+    	 {
+    		 List<Individual> individualList = new ArrayList<>();
+    		 jo=(JSONObject) jsonarray.get(i);
+    		 map.put("name", jo.get("name"));
+    		 map.put("id", ((Long) jo.get("id")).intValue());
+    		 
+    		 JSONArray memberArray = (JSONArray) jo.get("members");
+    		 for (int index = 0; index < memberArray.size(); index++) {
+
+					individualList.add(reader.getIndividualById(((Long) memberArray.get(index)).intValue()));
+
+				}
+    		 
+    		 
+    		 map.put("members", individualList);
+    		teamObject= new Team(map);
+				listTeam.add(teamObject);
+					 
+    	 }
+    	 return listTeam;
+	    
     }
 }
