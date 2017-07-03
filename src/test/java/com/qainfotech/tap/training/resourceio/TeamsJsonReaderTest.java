@@ -102,7 +102,7 @@ public class TeamsJsonReaderTest {
     }
     
     @Test
-    public void Team_getActiveMembers_should_return_a_list_of_team_members_that_are_active(){
+    public void Team_getActiveMembers_should_return_a_list_of_team_members_that_are_active() throws ObjectNotFoundException{
         assertThat(teamReader.getListOfTeams().get(0).getActiveMembers().size())
                 .isEqualTo(2);
         assertThat(teamReader.getListOfTeams().get(1).getActiveMembers().size())
