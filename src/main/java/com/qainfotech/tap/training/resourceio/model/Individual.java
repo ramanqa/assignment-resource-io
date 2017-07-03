@@ -1,6 +1,8 @@
 package com.qainfotech.tap.training.resourceio.model;
 
+import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  *
@@ -12,9 +14,18 @@ public class Individual {
     private final Integer id;
     private final Boolean active;
     
+    
     public Individual(Map<String, Object> individualMap){
-        throw new UnsupportedOperationException("Not implemented.");
+    	
+    Map<String, Object> myMap = individualMap;
+    	
+    name = myMap.get("name").toString();
+    id = Integer.parseInt(myMap.get("id").toString());
+    active = Boolean.parseBoolean(myMap.get("active").toString());
+       
+    // throw new UnsupportedOperationException("Not implemented.");
     }
+  
     
     /**
      * get the name of individual
@@ -41,4 +52,7 @@ public class Individual {
     public Boolean isActive(){
         return active;
     }
+    
+   
+    
 }
