@@ -4,7 +4,7 @@ import com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException
 import com.qainfotech.tap.training.resourceio.model.Individual;
 import com.qainfotech.tap.training.resourceio.model.Team;
 import java.util.List;
-
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -206,6 +206,7 @@ public class TeamsJsonReader{
 
 				}
 				myMap.put("members", individualList);
+				
 				team.add(new Team(myMap));
 			}
 
