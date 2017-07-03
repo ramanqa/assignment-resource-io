@@ -3,6 +3,8 @@ package com.qainfotech.tap.training.resourceio;
 import org.testng.annotations.Test;
 import com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException;
 import com.qainfotech.tap.training.resourceio.model.Individual;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import static org.assertj.core.api.Assertions.*;
 import org.testng.annotations.BeforeTest;
@@ -37,7 +39,7 @@ public class TeamsYamlReaderTest {
     }
     
     @Test
-    public void getListOfActiveIndividuals_ahould_return_array_list_of_only_active_individual_objects(){
+    public void getListOfActiveIndividuals_ahould_return_array_list_of_only_active_individual_objects() throws FileNotFoundException{
         
         assertThat(teamReader.getListOfActiveIndividuals().size()).isEqualTo(3);
         for(Individual individual:teamReader.getListOfActiveIndividuals()){
@@ -46,7 +48,7 @@ public class TeamsYamlReaderTest {
     }
     
     @Test
-    public void getListOfInactiveIndividuals_should_return_array_list_of_only_inactive_individual_objects(){
+    public void getListOfInactiveIndividuals_should_return_array_list_of_only_inactive_individual_objects() throws FileNotFoundException{
         
         assertThat(teamReader.getListOfInactiveIndividuals().size()).isEqualTo(2);
         for(Individual individual:teamReader.getListOfInactiveIndividuals()){
@@ -57,7 +59,7 @@ public class TeamsYamlReaderTest {
     /* tests for getIndividualById(Integer id) */
     @Test
     public void getIndividualById_should_return_Individual_object_matching_id()
-            throws ObjectNotFoundException{
+            throws ObjectNotFoundException, FileNotFoundException{
         
         assertThat(teamReader.getIndividualById(1202).getName())
                 .isEqualTo("Mark Twain");
@@ -65,7 +67,7 @@ public class TeamsYamlReaderTest {
     
     @Test(expectedExceptions = ObjectNotFoundException.class, expectedExceptionsMessageRegExp="Individual Object with id=100 not found")
     public void getIndividualById_should_throw_ObjectNotFoundException_for_incorrect_id()
-            throws ObjectNotFoundException{
+            throws ObjectNotFoundException, FileNotFoundException{
         
         teamReader.getIndividualById(100);
     }
@@ -73,7 +75,7 @@ public class TeamsYamlReaderTest {
     /* tests for getIndividualByName(String name) */
     @Test
     public void getIndividualByName_should_return_Individual_object_matching_name()
-            throws ObjectNotFoundException{
+            throws ObjectNotFoundException, FileNotFoundException{
         
         assertThat(teamReader.getIndividualByName("Speedy Gonzales").getId())
                 .isEqualTo(1203);
@@ -81,7 +83,7 @@ public class TeamsYamlReaderTest {
     
     @Test(expectedExceptions = ObjectNotFoundException.class, expectedExceptionsMessageRegExp="Individual Object with Name=Individual By This Name Does Not Exist not found")
     public void getIndividualByName_should_throw_ObjectNotFoundException_for_incorrect_name()
-            throws ObjectNotFoundException{
+            throws ObjectNotFoundException, FileNotFoundException{
         
         teamReader.getIndividualByName("Individual By This Name Does Not Exist");
     }
