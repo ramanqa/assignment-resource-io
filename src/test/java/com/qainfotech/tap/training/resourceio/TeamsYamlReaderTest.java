@@ -62,7 +62,7 @@ public class TeamsYamlReaderTest {
                 .isEqualTo("Mark Twain");
     }
     
-    @Test(expectedExceptions = ObjectNotFoundException.class, expectedExceptionsMessageRegExp="Individual Object with id=100 not found")
+    @Test(expectedExceptions = ObjectNotFoundException.class, expectedExceptionsMessageRegExp="individual Object with id=100 not found")
     public void getIndividualById_should_throw_ObjectNotFoundException_for_incorrect_id()
             throws ObjectNotFoundException{
         
@@ -78,7 +78,7 @@ public class TeamsYamlReaderTest {
                 .isEqualTo(1203);
     }
     
-    @Test(expectedExceptions = ObjectNotFoundException.class, expectedExceptionsMessageRegExp="Individual Object with Name=Individual By This Name Does Not Exist not found")
+    @Test(expectedExceptions = ObjectNotFoundException.class, expectedExceptionsMessageRegExp="Individual Object with name=Individual By This Name Does Not Exist not found")
     public void getIndividualByName_should_throw_ObjectNotFoundException_for_incorrect_name()
             throws ObjectNotFoundException{
         
