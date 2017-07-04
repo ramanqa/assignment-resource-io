@@ -97,11 +97,11 @@ public class TeamsJsonReader {
 	 */
 	public Individual getIndividualByName(String name) throws ObjectNotFoundException {
 
-		for (int index = 0; index < individualList.size(); index++) {
+		for (int index = 0; index < this.individualList.size(); index++) {
 
-			if (individualList.get(index).getName().equals(name)) {
+			if (this.individualList.get(index).getName().equals(name)) {
 
-				return individualList.get(index);
+				return this.individualList.get(index);
 
 			}
 
