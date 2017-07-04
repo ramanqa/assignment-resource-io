@@ -1,4 +1,4 @@
-package com.qainfotech.tap.training.resourceio.model;
+ackage com.qainfotech.tap.training.resourceio.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,29 @@ public class Team {
     private final List<Individual> members;
     
     public Team(Map<String, Object> teamMap){
-        throw new UnsupportedOperationException("Not implemented.");
+    	
+    	
+    	Integer id=null;
+    	String name=null;
+    	List<Individual> members=null;
+    	
+    	for(Map.Entry<String, Object> entry : teamMap.entrySet()){
+    		
+    		if (entry.getKey() == "id") {
+                id = (Integer) entry.getValue();
+            }
+    		if (entry.getKey() == "name") {
+               name =  entry.getValue().toString();
+            }
+    		if (entry.getKey() == "members") {
+               members = (List<Individual>) entry.getValue();
+            }
+    	}
+    		
+    		this.id=id;
+    		this.name=name;
+    		this.members=members;
+    
     }
     
     /**
@@ -51,7 +73,19 @@ public class Team {
      * @return 
      */
     public List<Individual> getActiveMembers(){
-        throw new UnsupportedOperationException("Not implemented.");
+        
+    	
+    	List<Individual> individual;
+    	List<Individual> ActiveMembers = new ArrayList<>();
+    	individual=this.getMembers();
+    	for(Individual member:individual)
+    	{
+    		if(member.isActive())
+    		{
+    			ActiveMembers.add(member);
+    		}
+    	}
+    	return ActiveMembers;
     }
         
     /**
@@ -60,6 +94,18 @@ public class Team {
      * @return 
      */
     public List<Individual> getInactiveMembers(){
-        throw new UnsupportedOperationException("Not implemented.");
+        
+    	 List<Individual> individual;
+     	List<Individual> InActiveMembers = new ArrayList<>();
+     	individual=this.getMembers();
+     	for(Individual member:individual)
+     	{
+     		if(!member.isActive())
+     		{
+     			InActiveMembers.add(member);
+     		}
+     	}
+     	return InActiveMembers;
     }
 }
+
