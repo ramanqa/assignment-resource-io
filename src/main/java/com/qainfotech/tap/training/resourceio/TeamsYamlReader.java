@@ -104,6 +104,10 @@ public class TeamsYamlReader {
 	 */
 	public Individual getIndividualById(Integer id) throws ObjectNotFoundException {
 
+		
+		if (individualList.isEmpty()) {
+			this.getListOfIndividuals();
+		}
 		for (int index = 0; index < this.individualList.size(); index++) {
 
 			if ((int) this.individualList.get(index).getId() == (int) id) {
@@ -127,11 +131,15 @@ public class TeamsYamlReader {
 	 */
 	public Individual getIndividualByName(String name) throws ObjectNotFoundException {
 
-		for (int index = 0; index < individualList.size(); index++) {
+			
+		if (this.individualList.isEmpty()) {
+			this.getListOfIndividuals();
+		}
+		for (int index = 0; index < this.individualList.size(); index++) {
 
-			if (individualList.get(index).getName().equals(name)) {
+			if (this.individualList.get(index).getName().equals(name)) {
 
-				return individualList.get(index);
+				return this.individualList.get(index);
 
 			}
 
@@ -149,17 +157,17 @@ public class TeamsYamlReader {
 	 */
 	public List<Individual> getListOfInactiveIndividuals() throws IOException {
 
-		if (individualList.isEmpty()) {
-			individualList = this.getListOfIndividuals();
+		if (this.individualList.isEmpty()) {
+			this.getListOfIndividuals();
 		}
 
 		inactiveIndObjList.clear();
 
-		for (int index = 0; index < individualList.size(); index++) {
+		for (int index = 0; index < this.individualList.size(); index++) {
 
-			if (individualList.get(index).isActive() == false) {
+			if (this.individualList.get(index).isActive() == false) {
 
-				inactiveIndObjList.add(individualList.get(index));
+				this.inactiveIndObjList.add(individualList.get(index));
 			}
 		}
 
