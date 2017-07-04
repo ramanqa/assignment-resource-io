@@ -89,7 +89,7 @@ public class TeamsYamlReaderTest {
     }
     
     @Test
-    public void getListOfTeams_should_return_a_list_if_Team_object_from_db_json(){
+    public void getListOfTeams_should_return_a_list_if_Team_object_from_db_json() throws FileNotFoundException, ObjectNotFoundException{
         
         assertThat(teamReader.getListOfTeams().size()).isEqualTo(2);
         assertThat(teamReader.getListOfTeams().get(0).getId()).isEqualTo(1001);
@@ -105,7 +105,7 @@ public class TeamsYamlReaderTest {
     }
     
     @Test
-    public void Team_getActiveMembers_should_return_a_list_of_team_members_that_are_active() throws ObjectNotFoundException{
+    public void Team_getActiveMembers_should_return_a_list_of_team_members_that_are_active() throws ObjectNotFoundException, FileNotFoundException{
         assertThat(teamReader.getListOfTeams().get(0).getActiveMembers().size())
                 .isEqualTo(2);
         assertThat(teamReader.getListOfTeams().get(1).getActiveMembers().size())
@@ -113,7 +113,7 @@ public class TeamsYamlReaderTest {
     }
     
     @Test
-    public void Team_getInactiveMembers_should_return_a_list_of_individual_team_members_that_are_inactive(){
+    public void Team_getInactiveMembers_should_return_a_list_of_individual_team_members_that_are_inactive() throws FileNotFoundException, ObjectNotFoundException{
         assertThat(teamReader.getListOfTeams().get(0).getInactiveMembers()
                 .size()).isEqualTo(0);
         

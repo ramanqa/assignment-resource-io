@@ -7,8 +7,7 @@ import com.qainfotech.tap.training.resourceio.model.Team;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.json.simple.JSONArray;
 import java.util.*;
 import org.json.simple.JSONObject;
@@ -26,6 +25,7 @@ public class TeamsJsonReader{
      * 
      * @return 
      */
+	//TeamsJsonReader teamJsonReader=new TeamsJsonReader();
 	
 	JSONParser parser =new JSONParser();
 	 Object obj;
@@ -81,19 +81,17 @@ public class TeamsJsonReader{
      * @throws com.qainfotech.tap.training.resourceio.exceptions.ObjectNotFoundException 
      */
         public Individual getIndividualById(Integer id) throws ObjectNotFoundException{
-    	
-        	if(this.getListOfIndividuals()==null)
-            	this.getListOfIndividuals();
-    	
-     	for(int index=0;index<individualList.size();index++)
+        	List<Individual> idList=getListOfIndividuals();
+   
+     	for(int index=0;index<idList.size();index++)
     	{
-    		if(individualList.get(index).getId()==(int)id)
+    		if(idList.get(index).getId()==id.intValue())
     		{
-    			return individualList.get(index);
+    			return idList.get(index);
     		}
     			
     	}
-        throw new ObjectNotFoundException(null,null,null);
+       throw new ObjectNotFoundException(null,null,null);
     }
     
     /**
@@ -167,8 +165,10 @@ activeList.add(individualList.get(index));
      * get a list of team objects from db json
      * 
      * @return 
+     * @throws ObjectNotFoundException 
      */
-    public List<Team> getListOfTeams(){
+    public List<Team> getListOfTeams() throws ObjectNotFoundException{
+    	TeamsJsonReader teamJsonReader=new TeamsJsonReader();
     	
  	   try {
  			obj = parser.parse(new FileReader("src/main/resources/db.json"));
@@ -179,24 +179,42 @@ activeList.add(individualList.get(index));
  	   
  	    JSONObject jsonObject = (JSONObject) obj;
  	   teamList=new ArrayList<Team>();
- 
- 	    
+ 	  
+ 	  JSONArray jsonMemebersById=new JSONArray();
          JSONArray arr=(JSONArray)jsonObject.get("teams");
          JSONObject myobj;
         
          Map<String, Object> map;
          Team team;
+        
          for(int index=0;index<arr.size();index++)
          {
-         	
+        	 List<Individual> members=new ArrayList<>();
+        	 
+
          	 myobj = (JSONObject) arr.get(index);
          
         
          	 map=(Map<String,Object>)myobj.clone();
+         	
          	 
+         	 
+         jsonMemebersById=(JSONArray)myobj.get("members");
+        
+         	for(int i=0;i< jsonMemebersById.size();i++)
+         	{
+         		  
+         		int id=Integer.parseInt(jsonMemebersById.get(i).toString());
+         		members.add(getIndividualById(id));
+        	}
+        		
+        	map.put("members",members);
+        	
+        	
+        
          	team=new Team(map);
            teamList.add(team);
-      
+    
          		
          }
 		return teamList;

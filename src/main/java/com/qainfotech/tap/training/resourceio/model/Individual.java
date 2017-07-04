@@ -8,7 +8,12 @@ import java.util.Map;
  */
 public class Individual {
     
-    private final String name;
+    @Override
+	public String toString() {
+		return "Individual [name=" + name + ", id=" + id + ", active=" + active + "]";
+	}
+
+	private final String name;
     private final Integer id;
     private final Boolean active;
     

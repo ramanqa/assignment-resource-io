@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,14 +34,19 @@ public class TeamsYamlReader{
      */
 
 	Yaml yaml = new Yaml();
+	List<Team> team_List=new ArrayList<>();
+	List<Team> teamActiveList=new ArrayList<>();
+	List<Team> teamInactiveList=new ArrayList<>();
 	 List<Individual> individualList = new ArrayList<>();
 	 Map<String,ArrayList> values;
+	 Map<String,ArrayList> values2;
 	 List<Individual> activeList=new ArrayList<Individual>();
 	 List<Individual> notActiveList=new ArrayList<Individual>();
 
     public List<Individual> getListOfIndividuals() throws FileNotFoundException{
     	
     	try{
+    		individualList.clear();
     values = (Map<String, ArrayList>) yaml
     			.load(new FileInputStream(new File("src/main/resources/db.yaml")));
     	}
@@ -87,6 +93,7 @@ public class TeamsYamlReader{
      */
     public Individual getIndividualById(Integer id) throws ObjectNotFoundException, FileNotFoundException{
     	
+    	individualList.clear();
     	if(this.getListOfIndividuals()==null)
         	this.getListOfIndividuals();
     	
@@ -98,7 +105,7 @@ public class TeamsYamlReader{
     		}
     			
     	}
-     	  throw new ObjectNotFoundException(null,null,null);
+     	 throw new ObjectNotFoundException("Individual","id",id.toString());
       //  throw new UnsupportedOperationException("Not implemented.");
     }
     
@@ -111,7 +118,7 @@ public class TeamsYamlReader{
      * @throws FileNotFoundException 
      */
     public Individual getIndividualByName(String name) throws ObjectNotFoundException, FileNotFoundException{
-    	
+    	individualList.clear();
     	if(this.getListOfIndividuals()==null)
         	this.getListOfIndividuals();
     	for(int index=0;index<individualList.size();index++)
@@ -123,7 +130,7 @@ public class TeamsYamlReader{
     			
     	}
     	
-    	throw new ObjectNotFoundException(null,null,null);
+    	throw new ObjectNotFoundException("Individual","Name",name.toString());
        // throw new UnsupportedOperationException("Not implemented.");
     }
     
@@ -135,7 +142,7 @@ public class TeamsYamlReader{
      * @throws FileNotFoundException 
      */
     public List<Individual> getListOfInactiveIndividuals() throws FileNotFoundException{
-    	
+    	individualList.clear();
     	if(this.getListOfIndividuals()==null)
         	this.getListOfIndividuals();
         	
@@ -156,7 +163,7 @@ public class TeamsYamlReader{
      * @throws FileNotFoundException 
      */
     public List<Individual> getListOfActiveIndividuals() throws FileNotFoundException{
-    	
+    	individualList.clear();
     	if(this.getListOfIndividuals()==null)
         	this.getListOfIndividuals();
     	
@@ -176,12 +183,55 @@ activeList.add(individualList.get(index));
      * get a list of team objects from db yaml
      * 
      * @return 
+     * @throws ObjectNotFoundException 
+     * @throws FileNotFoundException 
      */
-    public List<Team> getListOfTeams(){
-        throw new UnsupportedOperationException("Not implemented.");
+    public List<Team> getListOfTeams() throws FileNotFoundException, ObjectNotFoundException{
+    	
+    	try{
+    		team_List.clear();
+    values2 = (Map<String, ArrayList>) yaml
+    			.load(new FileInputStream(new File("src/main/resources/db.yaml")));
+    	}
+    	catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	Team teamlist;
+    	Map<String , Object> teamMap = new HashMap<>();
+    	ArrayList team= (ArrayList) values2.get("teams");
+    	for (int index = 0; index < team.size(); index++)
+    	{
+    		 List<Individual> membersTeam=new ArrayList<>();
+    		Map teams = (Map<String, ArrayList>)team.get(index);
+    		int id = (Integer)teams.get("id");
+    		teamMap.put("id", id);
+    		String name=(String)teams.get("name");
+    		teamMap.put("name", name);
+    		ArrayList members=(ArrayList)teams.get("members");
+    		
+    		for(int i=0;i< members.size();i++)
+         	{
+         		  
+         		int idTeam=Integer.parseInt(members.get(i).toString());
+         		membersTeam.add(getIndividualById(idTeam));
+        	}
+        		
+        	
+    		teamMap.put("members", membersTeam);
+    		teamlist=new Team(teamMap);
+    		team_List.add(teamlist);
+    		
+
+    	}
+    	
+		return team_List;
+		
+		
+    	
+       // throw new UnsupportedOperationException("Not implemented.");
     }
-   public static void main(String args[]) throws FileNotFoundException{
-	   TeamsYamlReader ob=new TeamsYamlReader();
-	   ob.getListOfIndividuals();
-   }
+  
+    
     }

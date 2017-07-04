@@ -27,28 +27,16 @@ public class Team {
     private final String name;
     private final Integer id;
     private final List<Individual> members;
-    private List<Team> teamList;
+   // private List<Team> teamList;
     
     public Team(Map<String, Object> teamMap){
     	
     	this.name=(String)teamMap.get("name");
-    	this.members=new ArrayList<Individual>();
-    	JSONArray jsonMemebersById=(JSONArray)teamMap.get("members");
-    	this.id=(Integer) Integer.parseInt(teamMap.get("id").toString());
-    	List<Individual> indMembers=(teamJsonReader.getListOfIndividuals());
     	
-    	/*
-    	 * Compared the json array of members with the list of individuals using id
-    	 */
-    	Iterator<Individual> itr=indMembers.iterator();
-    	while(itr.hasNext()){
-    		Individual individual=itr.next();
-    		for(int index=0;index<jsonMemebersById.size();index++){
-    			if(individual.getId()==Integer.parseInt(jsonMemebersById.get(index).toString())){
-    				this.members.add(individual);
-    			}
-    		}
-    	}
+    	this.members=(List<Individual>) teamMap.get("members");
+    	
+    	this.id=(Integer) Integer.parseInt(teamMap.get("id").toString());
+    	
     }
     	
     //  throw new UnsupportedOperationException("Not implemented.");
@@ -90,10 +78,13 @@ public class Team {
     public List<Individual> getActiveMembers() throws ObjectNotFoundException{
     	List<Individual> activeList=new ArrayList<Individual>();
     	Iterator<Individual> itr=this.members.iterator();
+    	
+    	
     	while(itr.hasNext()){
     		
     		Individual individual=itr.next();
-    		
+    	
+    
     		/*
     		 * Checked the value of isActive function to return the list of active members present in the team
     		 */
@@ -129,4 +120,5 @@ public class Team {
     	}
        return inactiveList;
     }
+ 
 }

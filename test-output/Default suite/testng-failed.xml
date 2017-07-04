@@ -5,8 +5,8 @@
     <classes>
       <class name="com.qainfotech.tap.training.resourceio.TeamsYamlReaderTest">
         <methods>
+          <include name="getIndividualByName_should_throw_ObjectNotFoundException_for_incorrect_name"/>
           <include name="loadDB"/>
-          <include name="getListOfIndividuals_should_return_array_list_of_all_individual_objects"/>
         </methods>
       </class> <!-- com.qainfotech.tap.training.resourceio.TeamsYamlReaderTest -->
     </classes>
