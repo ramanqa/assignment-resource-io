@@ -115,6 +115,7 @@ public class TeamsJsonReader{
     		flag=0;
     		ind=list.get(index);
     		if(ind.getName().equals(name)){
+    			
     			flag=1;
     			break;
     		}
@@ -196,10 +197,12 @@ public class TeamsJsonReader{
      * get a list of team objects from db json
      * 
      * @return 
+     * @throws Exception 
      */
-    public List<Team> getListOfTeams(){
-        
-	    JSONObject jo=null;
+    public List<Team> getListOfTeams() throws Exception{
+    	
+    	
+    	JSONObject jo=null;
     	List<Team> listTeam=new ArrayList<Team>();
     	Team teamObject = null;
     	Map<String,Object> map=new HashMap<String, Object>();
@@ -230,6 +233,7 @@ public class TeamsJsonReader{
 					 
     	 }
     	 return listTeam;
-	    
+    	 
+       
     }
 }

@@ -1,4 +1,4 @@
-ackage com.qainfotech.tap.training.resourceio.model;
+package com.qainfotech.tap.training.resourceio.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,4 +108,3 @@ public class Team {
      	return InActiveMembers;
     }
 }
-
